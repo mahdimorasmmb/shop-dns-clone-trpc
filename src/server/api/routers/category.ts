@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 
-export const exampleRouter = createTRPCRouter({
+export const categoryRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
@@ -11,7 +11,9 @@ export const exampleRouter = createTRPCRouter({
       };
     }),
   getAll: publicProcedure.query(({ ctx }) => {
-    // return ctx.prisma.example.findMany();
-    return { message: 'finmany' };
+    return ctx.prisma.category.findMany({
+      where: { parent: null },
+      include: { subCategories: true },
+    });
   }),
 });
