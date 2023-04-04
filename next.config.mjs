@@ -18,5 +18,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  images: {
+    domains: ['c.dns-shop.ru'],
+  },
 };
 export default config;

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { api, type RouterOutputs } from '~/utils/api';
 
@@ -7,12 +8,15 @@ const CatalogCategory = () => {
 
   return (
     <div>
-      <div className='z-40 flex gap-4 bg-white  text-black relative'  >
+      <div className='relative z-40 flex gap-4  bg-white text-black'>
         <div className=''>
           {data?.map((category) => (
             <div
               onMouseEnter={() => setSubCatalog(category.id)}
               key={category.id}
+              className={` cursor-pointer ${
+                subCatalog === category.id ? 'text-orange-400' : ''
+              }`}
             >
               {category.title}
             </div>
@@ -23,13 +27,22 @@ const CatalogCategory = () => {
             {data
               ?.find((category) => category.id === subCatalog)
               ?.subCategories.map((subCategory) => (
-                <div key={subCategory.id}>{subCategory.title}</div>
+                <Link
+                  href={`/${subCategory.slug}`}
+                  className='hover:text-orange-400 block'
+                  key={subCategory.id}
+                >
+                  {subCategory.title}
+                </Link>
               ))}
           </div>
         )}
       </div>
       {subCatalog && (
-        <div className='absolute right-0 top-0  h-screen w-full bg-neutral-600 opacity-25' onMouseEnter={()=> setSubCatalog(null)} />
+        <div
+          className='absolute right-0 top-0  h-screen w-full bg-neutral-600 opacity-25'
+          onMouseEnter={() => setSubCatalog(null)}
+        />
       )}
     </div>
   );
